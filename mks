@@ -1,0 +1,26 @@
+#!/bin/bash
+set -euo pipefail
+
+MODELE="$HOME/.local/bin/modele.sh"
+
+if [[ ! -f "$MODELE" ]]; then
+    echo "Erreur : Le fichier modèle '$MODELE' est introuvable !" >&2
+    exit 1
+fi
+
+if [[ $# -eq 0 ]]; then
+    echo "Erreur : Aucun nom de fichier spécifié." >&2
+    echo "Utilisation : mks <nom_du_script.sh>" >&2
+    exit 1
+fi
+
+CIBLE="$1"
+
+if [[ -e "$CIBLE" ]]; then
+    echo "Erreur : Le fichier '$CIBLE' existe déjà !" >&2
+    exit 1
+fi
+
+cp "$MODELE" "$CIBLE"
+chmod +x "$CIBLE"
+nano "$CIBLE"
